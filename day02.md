@@ -148,3 +148,120 @@ git switch -c 브랜치명
 git switch -c 브랜치명 커밋ID
 ```
 
+
+
+## 브랜치 실습
+
+1. 준비
+
+   - 홈폴더에 branch-practice폴더 생성 후 vscode 실행
+
+   - attraction.txt파일 생성: touch attraction.txt
+
+   - git init
+
+   - attraction 파일 내부에 내용 채우기
+
+   - git add .
+
+   - git commit -m 'initialize'
+
+2. attraction 수정 후 5, 6 진행
+
+   - 여기까지 마스터 브랜치에 두 레포지토리가 찍힌 것
+   - 이후 작업을 위해 신규 브랜치를 생성할 것(water)
+
+![현재 상황](day02.assets/image-20220318141222379.png)
+
+3. git branch water
+
+   - 아무 결과도 안나옴
+
+   - git branch를 통해 브랜치 확인
+
+   - 브랜치 이동 필요
+
+4. git switch water
+   - water브랜치로 바뀐것을 확인
+
+5.  attraction파일 수정
+   - 이후 add, commit과정
+   - git log --oneline으로 확인
+     - HEAD(포인터)가 water에 있는것을 확인
+     - git switch master
+
+![현재](day02.assets/image-20220318143351461.png)
+
+6. git switch -c kids
+   - attraction 파일 수정 이후 5~6반복
+
+7. git log --oneline --all --graph
+   - 브랜치 구조 파악 가능
+
+8. git switch master
+
+---
+
+ 지금까지 브랜치 통해서 독립된 작업 공간에서 만드는 것 까지 진행
+
+![진행상황](day02.assets/image-20220318145418431.png)
+
+작업이 끝나고 나면, master 브랜치에 병합해서 서비스 운영할 수 있도록 해야 함
+
+**병합** -> `merge`
+
+- git merge
+  - 분리된 브랜치 합치는 명령어
+
+```bash
+# 남겨질 브랜치 위치에서 진행하면 된다.
+# master로 이동한 다음 merge하면 master로 병합됨
+git merge 합칠 브랜치 이름
+```
+
+
+
+## 브랜치 병합
+
+1. kids 브랜치를 master에 병합
+   - git merge kids
+   - kids 브랜치는 이제 필요없기 때문에 삭제
+
+![현재 상태](day02.assets/image-20220318145910998.png)
+
+2. kids 브랜치 삭제
+   - git branch -d kids(병합완료됐기 때문에)
+   - git branch -D(병합이 안됐을 경우)
+   - 이후 git branch를 통해 확인해 보면 master, water 두개만 남음
+
+![현재상태](day02.assets/image-20220318150205511.png)
+
+---
+
+## 충돌(conflict)
+
+먼저 water브랜치로 이동
+
+- water의 내용과 kids+master의 attraction.txt 내용 다른것을 확인
+
+master로 이동 후 git branch로 확인 
+
+1. git merge water 시도
+   - confict 생김
+   - 둘 다 선택(Accept Both Changes 클릭)
+
+2. 저장 후 add, commit
+3. git log --oneline --all -graph로 확인 -> 모두 병합됐음
+
+![현재 상태](day02.assets/image-20220318152207728.png)
+
+4. water branch 삭제
+   - git branch -d water
+   - git log --oneline --all --graph로 확인
+
+브랜치를 옮기기 전에 작업했던 것들은 커밋해놓아야 함(최소 add)
+
+---
+
+
+
